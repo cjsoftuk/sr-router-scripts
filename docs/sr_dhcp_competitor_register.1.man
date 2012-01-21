@@ -1,0 +1,20 @@
+.TH SR_DHCP_REGISTER 1 "JANUARY 2012" "SR Router" "Management Utilities"
+.SH NAME 
+sr_dhcp_competitor_register \- Register a host with a dynamic DHCP address on a competitor subnet
+.SH SYNOPSIS
+.B sr_dhcp_competitor_register
+.I mac
+.I subnet-id
+.SH DESCRIPTION
+Registers
+.I mac
+with a dynamic address on the specified subnet.  Subnet-id may be in the range 1-254
+.SH OPTIONS
+.IP mac
+The MAC address of the host.
+.IP subnet-id
+The /24 subnet in the 172.19.0.0/16 block to add the host to.
+.SH AUTHOR
+Chris Malton <cmalton at studentrobotics dot org>
+.SH SEE ALSO
+.BR dhcpd.conf (5)
