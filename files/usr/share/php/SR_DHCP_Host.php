@@ -4,6 +4,8 @@ class SR_DHCP_Host {
 	var $Hostname;
 	var $HWAddr;
 	var $IPAddr;
+	var $DefaultLeaseTime;
+	var $MaxLeaseTime;
 
 	public static function Parse($hostBlock){
 		// Get the host name
@@ -27,6 +29,12 @@ class SR_DHCP_Host {
 					if($line[1] != "ethernet") continue;
 					$host->HWAddr = trim($line[2]);
 					break;
+				case "default-lease-time":
+					$host->DefaultLeaseTime = trim($line[1]);
+					break;
+				case "max-lease-time":
+					$host->MaxLeaseTime = trim($line[1]);
+					break;
 			}
 		}
 		return $host;
@@ -35,7 +43,9 @@ class SR_DHCP_Host {
 	public function __toString(){
 		return "host " . $this->Hostname . " {
 	hardware ethernet " . $this->HWAddr . ";
-	fixed-address " . $this->IPAddr . ";
+	" . ($this->IPAddr ? "fixed-address " . $this->IPAddr . ";" : "") . "
+	" . ($this->DefaultLeaseTime ? "default-lease-time " . $this->DefaultLeaseTime . ";" : "") . "
+	" . ($this->MaxLeaseTime ? "max-lease-time " . $this->MaxLeaseTime . ";" : "") . "
 }
 ";
 	}
