@@ -44,7 +44,7 @@ if(!is_writable("/etc/dhcp/")){
 ";
 	exit();
 }
-$lockFile = fopen("/etc/dhcp/registered-hosts.conf.lock", "a");
+$lockFile = fopen("/etc/dhcp/sr-registered-hosts.conf.lock", "a");
 if(!$lockFile){
 	echo "ERROR: Could not lock registered-hosts.conf
 ";
@@ -59,8 +59,8 @@ Locked by another process.
 ftruncate($lockFile, 0);
 fwrite($lockFile, "Locked by sr_dhcp_register PID " . getmypid());
 
-if(file_exists("/etc/dhcp/registered-hosts.conf")){
-	$regHostsFile = file_get_contents("/etc/dhcp/registered-hosts.conf");
+if(file_exists("/etc/dhcp/sr-registered-hosts.conf")){
+	$regHostsFile = file_get_contents("/etc/dhcp/sr-registered-hosts.conf");
 	while(strpos($regHostsFile, "}") > -1){
 		$host = SR_DHCP_Host::Parse($regHostsFile);
 		if($host) $hosts[] = $host;
@@ -95,11 +95,11 @@ $registered_hosts_conf = "";
 foreach($hosts as $host){
 	$registered_hosts_conf .= $host->__toString();
 }
-file_put_contents("/etc/dhcp/registered-hosts.conf", $registered_hosts_conf);
+file_put_contents("/etc/dhcp/sr-registered-hosts.conf", $registered_hosts_conf);
 
 passthru("service isc-dhcp-server restart");
 
 fclose($lockFile);
-unlink("/etc/dhcp/registered-hosts.conf.lock");
+unlink("/etc/dhcp/sr-registered-hosts.conf.lock");
 
 ?>
