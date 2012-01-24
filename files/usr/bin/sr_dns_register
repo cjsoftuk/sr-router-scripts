@@ -1,0 +1,33 @@
+#! /bin/bash
+
+TTL=600
+TYPE="A"
+while [ $# -gt 0 ]; do
+	if [ "$1" == "-t" ]; then
+		# Set TTL
+		shift
+		if [ $# -eq 0 ]; then echo "Error: Missing argument to -t"; exit 1; fi
+		TTL="$1"
+	elif [ "$1" == "-k" ]; then
+		# Set TTL
+		shift
+		if [ $# -eq 0 ]; then echo "Error: Missing argument to -k"; exit 1; fi
+		TYPE="$1"
+	else
+		if [ "$DOMAIN" == "" ]; then
+			DOMAIN="$1"
+		elif [ "$DATA" == "" ]; then
+			DATA="$1"
+		else
+			echo "Unexpected argument"
+			exit 1
+		fi
+	fi
+	shift
+done
+
+cat <<EOF | nsupdate -v -k /etc/bind/keys/*localhost*.key
+server 127.0.0.1
+update add $DOMAIN $TTL $TYPE $DATA
+send
+EOF
