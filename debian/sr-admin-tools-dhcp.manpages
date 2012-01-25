@@ -1,1 +1,4 @@
 docs/sr_dhcp_register.1.gz
+docs/sr_dhcp_unregister.1.gz
+docs/sr_dhcp_competitor_register.1.gz
+docs/sr_dhcp_competitor_unregister.1.gz
