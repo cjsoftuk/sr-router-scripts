@@ -1,0 +1,31 @@
+.TH SR_DNS_REGISTER 1 "JANUARY 2012" "SR Router" "Management Utilities"
+.SH NAME 
+sr_dns_register \- Register a DNS entry for a host.
+.SH SYNOPSIS
+.B sr_dns_register
+.I [-t ttl]
+.I [-k type]
+.I domain
+.I data
+.SH DESCRIPTION
+Creates a DNS entry for 
+.I domain
+, of the specified 
+.I type 
+and 
+.I ttl
+, with data of 
+.I data
+.SH OPTIONS
+.IP ttl
+The Time-To-Live in seconds.
+.IP type
+The type of the record (A, CNAME, etc)
+.IP domain
+The domain name to which the record pertains.
+.IP data
+The data for the record
+.SH AUTHOR
+Chris Malton <cmalton at studentrobotics dot org>
+.SH SEE ALSO
+.BR named (8)

@@ -11,11 +11,16 @@ DOCS_sr-admin-tools-dhcp = docs/sr_dhcp_register.1.gz \
                            docs/sr_dhcp_competitor_register.1.gz \
 			   docs/sr_dhcp_competitor_unregister.1.gz
 
+DOCS_sr-admin-tools-dns  = docs/sr_dns_register.1.gz \
+			   docs/sr_dns_deregister.1.gz
+
 %.gz: %.man
 	gzip -c $< > $@
 
 build/sr-admin-tools-dhcp:: $(DOCS_sr-admin-tools-dhcp)
+build/sr-admin-tools-dns:: $(DOCS_sr-admin-tools-dns)
 
 override_dh_clean:
 	dh_clean
 	rm $(DOCS_sr-admin-tools-dhcp)
+	rm $(DOCS_sr-admin-tools-dns)

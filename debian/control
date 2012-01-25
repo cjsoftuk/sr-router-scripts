@@ -11,3 +11,10 @@ Depends: php5-cli
 Description: Student Robotics DHCP admin tools
  This package installs tools to manage the DHCP server for the Student Robotics
  network.
+
+Package: sr-admin-tools-dns
+Architecture: all
+Depends: sr-router-config-bind9
+Description: Student Robotics DNS admin tools
+ This package installs tools to manage the DNS server for the Student Robotics
+ network.

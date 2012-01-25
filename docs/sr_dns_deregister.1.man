@@ -1,0 +1,21 @@
+.TH SR_DNS_REGISTER 1 "JANUARY 2012" "SR Router" "Management Utilities"
+.SH NAME 
+sr_dns_unregister \- Delete a DNS record from the server
+.SH SYNOPSIS
+.B sr_dns_unregister
+.I -k type
+.I domain
+.SH DESCRIPTION
+Deletes DNS entries for 
+.I domain
+, of the specified 
+.I type 
+.SH OPTIONS
+.IP type
+The type of the record (A, CNAME, etc)
+.IP domain
+The domain name to which the record pertains.
+.SH AUTHOR
+Chris Malton <cmalton at studentrobotics dot org>
+.SH SEE ALSO
+.BR named (8)
