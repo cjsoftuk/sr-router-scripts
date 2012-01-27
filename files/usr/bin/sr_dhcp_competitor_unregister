@@ -1,74 +1,32 @@
-#! /usr/bin/php
-<?php
+#! /bin/bash
 
-require_once("SR_DHCP_Host.php");
-
-function usage(){
-	global $argv;
-	echo "Usage: " . $argv[0] . " mac network
+usage(){
+	cat <<EOF
+Usage: $0 mac network
 mac must be a valid MAC address.
-pattern must be one of the DHCP-provisioned networks.
-For more information, see the sr_dhcp_unregister (1) manpage
-";
-	exit();
+network must be one of the competitor subnets on vlan103.
+For more information, see the sr_dhcp_competitor_unregister (1) manpage
+EOF
+	exit 1
 }
 
-if(count($argv) < 3){
-	usage();
-}
+if [ $# -lt 2 ]; then
+	usage
+fi
 
-$MAC = $argv[1];
-$network = $argv[2];
+MAC=$1;
+network=$2;
 
-$hosts = array();
-if(!is_writable("/etc/dhcp/")){
-	echo "ERROR: /etc/dhcp/ is not writable - did you forget to use sudo?
-";
-	exit();
-}
-$lockFile = fopen("/etc/dhcp/subnets/team-" . $network . ".conf.lock", "a");
-if(!$lockFile){
-	echo "ERROR: Could not lock team-" . $network . ".conf
-";
-	exit();
-}
-if(!flock($lockFile, LOCK_EX | LOCK_NB)){
-	echo "ERROR: Could not lock team-" . $network . ".conf
-Locked by another process.
-";
-	exit();
-}
-ftruncate($lockFile, 0);
-fwrite($lockFile, "Locked by sr_dhcp_competitor_unregister PID " . getmypid());
+if [ ! -w /etc/dhcp/subnets/team-${network}.conf ]; then
+	echo "/etc/dhcp/subnets/team-${network}.conf is not writable.  Aborting."
+	exit 1
+fi
 
-if(file_exists("/etc/dhcp/subnets/team-" . $network . ".conf")){
-	$regHostsFile = file_get_contents("/etc/dhcp/subnets/team-" . $network . ".conf");
-	while(strpos($regHostsFile, "}") > -1){
-		$host = SR_DHCP_Host::Parse($regHostsFile);
-		if($host) $hosts[] = $host;
-		$regHostsFile = substr($regHostsFile, strpos($regHostsFile, "}") + 1);
-	}
-}
+# Unregister if registered
+if grep "subclass \"team${network}\" 1:${MAC};" /etc/dhcp/subnets/team-${network}.conf; then
+	MAC_sub=$(echo $MAC | sed 's/:/-/g')
+	sed -E -i "s/^subclass \"team${network}\" 1:${MAC};$//g" /etc/dhcp/subnets/team-${network}.conf
+	sed -E -i "s/^host ${MAC_sub} \{ hardware ethernet $MAC; \}$//g" /etc/dhcp/subnets/team-${network}.conf
+fi
 
-$newHosts = array();
-
-foreach($hosts as $host){
-	if(
-		($host->HWAddr == $MAC)
-	  ) continue;
-	$newHosts[] = $host;
-}
-
-$dynamic_hosts_conf = "";
-foreach($hosts as $host){
-	$dynamic_hosts_conf .= $host->__toString();
-}
-file_put_contents("/etc/dhcp/subnets/team-" . $network . ".conf", $dynamic_hosts_conf);
-
-passthru("service isc-dhcp-server restart");
-
-fclose($lockFile);
-unlink("/etc/dhcp/subnets/team-" . $network . ".conf.lock");
-
-
-?>
+service isc-dhcp-server restart
