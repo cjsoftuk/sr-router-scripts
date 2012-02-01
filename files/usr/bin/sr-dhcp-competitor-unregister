@@ -5,7 +5,7 @@ usage(){
 Usage: $0 mac network
 mac must be a valid MAC address.
 network must be one of the competitor subnets on vlan103.
-For more information, see the sr_dhcp_competitor_register (1) manpage
+For more information, see the sr-dhcp-competitor-unregister (1) manpage
 EOF
 	exit 1
 }
@@ -22,13 +22,11 @@ if [ ! -w /etc/dhcp/subnets/team-${network}.conf ]; then
 	exit 1
 fi
 
-# Register if not already registered
-if ! grep "subclass \"team${network}\" 1:${MAC};" /etc/dhcp/subnets/team-${network}.conf; then
+# Unregister if registered
+if grep "subclass \"team${network}\" 1:${MAC};" /etc/dhcp/subnets/team-${network}.conf; then
 	MAC_sub=$(echo $MAC | sed 's/:/-/g')
-	cat <<EOF >>/etc/dhcp/subnets/team-${network}.conf
-subclass "team${network}" 1:${MAC};
-host ${MAC_sub} { hardware ethernet $MAC; }
-EOF
+	sed -E -i "s/^subclass \"team${network}\" 1:${MAC};$//g" /etc/dhcp/subnets/team-${network}.conf
+	sed -E -i "s/^host ${MAC_sub} \{ hardware ethernet $MAC; \}$//g" /etc/dhcp/subnets/team-${network}.conf
 fi
 
 service isc-dhcp-server restart

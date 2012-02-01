@@ -1,8 +1,8 @@
-.TH SR_DNS_REGISTER 1 "JANUARY 2012" "SR Router" "Management Utilities"
+.TH SR-DNS-UNREGISTER 1 "JANUARY 2012" "SR Router" "Management Utilities"
 .SH NAME 
-sr_dns_unregister \- Delete a DNS record from the server
+sr-dns-unregister \- Delete a DNS record from the server
 .SH SYNOPSIS
-.B sr_dns_unregister
+.B sr-dns-unregister
 .I -k type
 .I domain
 .SH DESCRIPTION

@@ -1,8 +1,8 @@
-.TH SR_DNS_REGISTER 1 "JANUARY 2012" "SR Router" "Management Utilities"
+.TH SR-DNS-REGISTER 1 "JANUARY 2012" "SR Router" "Management Utilities"
 .SH NAME 
-sr_dns_register \- Register a DNS entry for a host.
+sr-dns-register \- Register a DNS entry for a host.
 .SH SYNOPSIS
-.B sr_dns_register
+.B sr-dns-register
 .I [-t ttl]
 .I [-k type]
 .I domain

@@ -1,8 +1,8 @@
-.TH SR_DHCP_REGISTER 1 "JANUARY 2012" "SR Router" "Management Utilities"
+.TH SR-DHCP-COMPETITOR-REGISTER 1 "JANUARY 2012" "SR Router" "Management Utilities"
 .SH NAME 
-sr_dhcp_competitor_register \- Register a host with a dynamic DHCP address on a competitor subnet
+sr-dhcp-competitor-register \- Register a host with a dynamic DHCP address on a competitor subnet
 .SH SYNOPSIS
-.B sr_dhcp_competitor_register
+.B sr-dhcp-competitor-register
 .I mac
 .I subnet-id
 .SH DESCRIPTION

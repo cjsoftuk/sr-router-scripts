@@ -8,7 +8,7 @@ function usage(){
 	echo "Usage: " . $argv[0] . " mac network
 mac must be a valid MAC address.
 pattern must be one of the DHCP-provisioned networks.
-For more information, see the sr_dhcp_register (1) manpage
+For more information, see the sr-dhcp-unregister (1) manpage
 ";
 	exit();
 }
@@ -51,13 +51,13 @@ if(!$lockFile){
 	exit();
 }
 if(!flock($lockFile, LOCK_EX | LOCK_NB)){
-	echo "ERROR: Could not lock registered-hosts.conf
+	echo "ERROR: Could not lock sr-registered-hosts.conf
 Locked by another process.
 ";
 	exit();
 }
 ftruncate($lockFile, 0);
-fwrite($lockFile, "Locked by sr_dhcp_register PID " . getmypid());
+fwrite($lockFile, "Locked by sr-dhcp-unregister PID " . getmypid());
 
 if(file_exists("/etc/dhcp/sr-registered-hosts.conf")){
 	$regHostsFile = file_get_contents("/etc/dhcp/sr-registered-hosts.conf");
@@ -68,31 +68,18 @@ if(file_exists("/etc/dhcp/sr-registered-hosts.conf")){
 	}
 }
 
-$allocated = array();
-for($i=1; $i<=254; $i++)
-	$allocated[$i] = false;
+$newHosts = array();
 
 foreach($hosts as $host){
-	if(substr($host->IPAddr, 0, strlen($baseNet)) == $baseNet){
-		$suffix = (int) substr($host->IPAddr, strlen($baseNet));
-		$allocated[$suffix] = true;
-	}
-}
-
-for($i=2; $i<=254; $i++){
-	if($allocated[$i] == false){
-		$newHost = new SR_DHCP_Host();
-		$newHost->HWAddr = $MAC;
-		$newHost->IPAddr = $baseNet . "$i";
-		$splitPrefix = explode(".", $baseNet);
-		$newHost->Hostname = "ip-" . $splitPrefix[1] . "-" . $splitPrefix[2] . "-" . $i . ".net.studentrobotics.org";
-		$hosts[] = $newHost;
-		break;
-	}
+	if(
+		(substr($host->IPAddr, 0, strlen($baseNet)) == $baseNet) &&
+		($host->HWAddr == $MAC)
+	  ) continue;
+	$newHosts[] = $host;
 }
 
 $registered_hosts_conf = "";
-foreach($hosts as $host){
+foreach($newHosts as $host){
 	$registered_hosts_conf .= $host->__toString();
 }
 file_put_contents("/etc/dhcp/sr-registered-hosts.conf", $registered_hosts_conf);

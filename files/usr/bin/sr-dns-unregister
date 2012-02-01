@@ -1,4 +1,13 @@
 #! /bin/bash
+
+if [ $# -lt 1 ]; then
+	cat <<EOF
+Usage: $0 [-k type] DOMAIN
+See man sr-dns-unregister (1) for more information.
+EOF
+	exit
+fi
+
 TYPE="A"
 while [ $# -gt 0 ]; do
 	if [ "$1" == "-k" ]; then

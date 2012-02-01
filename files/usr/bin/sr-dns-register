@@ -1,5 +1,13 @@
 #! /bin/bash
 
+if [ $# -lt 2 ]; then
+	cat <<EOF
+Usage: $0 [-t ttl] [-k type] DOMAIN DATA
+See man sr-dns-register (1) for more information.
+EOF
+	exit
+fi
+
 TTL=600
 TYPE="A"
 while [ $# -gt 0 ]; do

@@ -1,12 +1,12 @@
-.TH SR_DHCP_REGISTER 1 "JANUARY 2012" "SR Router" "Management Utilities"
+.TH SR-DHCP-REGISTER 1 "JANUARY 2012" "SR Router" "Management Utilities"
 .SH NAME 
-sr_dhcp_unregister \- Unregister a host with a static DHCP address
+sr-dhcp-register \- Register a host with a static DHCP address
 .SH SYNOPSIS
-.B sr_dhcp_unregister
+.B sr-dhcp-register
 .I mac
 .I subnet-name
 .SH DESCRIPTION
-Removes any registrations for
+Registers
 .I mac
 with a static address on the specified subnet.  Valid subnets are:
 .IP management
@@ -21,7 +21,7 @@ IP Range: 172.18.6.2-254
 .IP mac
 The MAC address of the host.
 .IP subnet-name
-The subnet to remove the allocation from.
+The subnet to allocate a new address from.
 .SH AUTHOR
 Chris Malton <cmalton at studentrobotics dot org>
 .SH SEE ALSO

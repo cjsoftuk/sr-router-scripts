@@ -6,13 +6,13 @@ include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/rules/config-package.mk
 include /usr/share/cdbs/1/rules/divert.mk
 
-DOCS_sr-admin-tools-dhcp = docs/sr_dhcp_register.1.gz \
-			   docs/sr_dhcp_unregister.1.gz \
-                           docs/sr_dhcp_competitor_register.1.gz \
-			   docs/sr_dhcp_competitor_unregister.1.gz
+DOCS_sr-admin-tools-dhcp = docs/sr-dhcp-register.1.gz \
+			   docs/sr-dhcp-unregister.1.gz \
+                           docs/sr-dhcp-competitor-register.1.gz \
+			   docs/sr-dhcp-competitor-unregister.1.gz
 
-DOCS_sr-admin-tools-dns  = docs/sr_dns_register.1.gz \
-			   docs/sr_dns_deregister.1.gz
+DOCS_sr-admin-tools-dns  = docs/sr-dns-register.1.gz \
+			   docs/sr-dns-unregister.1.gz
 
 %.gz: %.man
 	gzip -c $< > $@

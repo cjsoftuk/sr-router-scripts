@@ -1,2 +1,2 @@
 files/usr/share/php/SR_DHCP_Host.php /usr/share/php/
-files/usr/bin/sr_dhcp_* /usr/bin/
+files/usr/bin/sr-dhcp-* /usr/bin/
