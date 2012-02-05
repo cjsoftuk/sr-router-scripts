@@ -33,6 +33,12 @@ switch($network){
 	case "video":
 		$baseNet = "172.18.6.";
 		break;
+	case "pxe-competitor":
+		$baseNet = "172.18.7.";
+		break;
+	case "pxe-staff":
+		$baseNet = "172.18.8.";
+		break;
 	default:
 		usage();
 		exit();
