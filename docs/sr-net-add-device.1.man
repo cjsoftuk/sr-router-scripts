@@ -1,0 +1,23 @@
+.TH SR-NET-ADD-DEVICE 1 "JANUARY 2012" "SR Router" "Management Utilities"
+.SH NAME 
+sr-net-add-device - Register a device on the network (workflow script)
+.SH SYNOPSIS
+.B sr-net-add-device
+.I [-t type]
+.I [-m mac]
+.SH DESCRIPTION
+Registers a new device of type
+.I type
+with a MAC address of 
+.I mac
+onto the Student Robotics network in the right VLAN
+.SH OPTIONS
+.IP type
+The type of the device.  Valid types are: compcli, ap, switch, video
+.IP mac
+The MAC address of this client, in the format AA:BB:CC:DD:EE:FF
+.SH AUTHOR
+Chris Malton <cmalton at studentrobotics dot org>
+.SH SEE ALSO
+.BR sr-dhcp-register (8)
+.BR sr-dns-register (8)

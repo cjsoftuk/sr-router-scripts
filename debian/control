@@ -18,3 +18,10 @@ Depends: sr-router-config-bind9
 Description: Student Robotics DNS admin tools
  This package installs tools to manage the DNS server for the Student Robotics
  network.
+
+Package: sr-admin-tools-workflow
+Architecture: all
+Depends: sr-admin-tools-dns, sr-admin-tools-dhcp
+Description: Student Robotics network workflow scripts
+ This package installs tools for managing the Student Robotics network in a 
+ workflow.
